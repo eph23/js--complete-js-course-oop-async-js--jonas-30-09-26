@@ -26,14 +26,3 @@ console.log(eph.__proto__ === PersonCl.prototype);
 }; */
 eph.greet();
 
-const person = {
-  name: 'Eph',
-
-  greet() {
-    console.log(this.name);
-  },
-};
-
-const greet = person.greet;
-
-greet();
