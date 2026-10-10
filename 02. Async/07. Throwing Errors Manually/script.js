@@ -24,21 +24,31 @@ const renderError = function (message) {
   countriesContainer.insertAdjacentText('beforeend', message);
 };
 
+const getJSON = function (url, errorMessage = `Something went wrong`) {
+  return fetch(url).then(response => {
+    if (!response.ok) {
+      throw new Error(`${errorMessage} (${response.status})`);
+    }
+
+    return response.json();
+  });
+};
+
 const getCountyData = function (country) {
-  fetch(`https://countries.dev/name/${country}`)
-    .then(response => {
-      response.json();
-    })
+  getJSON(`https://countries.dev/name/${country}`, `Country not found`)
     .then(data => {
       renderCountry(data[0]);
 
       const neighbour = data[0].borders[0];
-      if (!neighbour) return;
 
-      return fetch(`https://countries.dev/alpha/${neighbour}`);
-    })
-    .then(responseNeighbour => {
-      return responseNeighbour.json();
+      if (!neighbour) {
+        throw new Error(`No neighbour found`);
+      }
+
+      return getJSON(
+        `https://countries.dev/alpha/${neighbour}`,
+        `Country not found`,
+      );
     })
     .then(dataNeighbour => {
       renderCountry(dataNeighbour, 'neighbour');
