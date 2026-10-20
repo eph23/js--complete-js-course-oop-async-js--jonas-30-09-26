@@ -29,3 +29,10 @@ console.log(eph.__proto__ === Person.prototype);
 console.log(Person.prototype.isPrototypeOf(eph));
 console.log(Person.prototype.isPrototypeOf(matilda));
 console.log(Person.prototype.isPrototypeOf(Person));
+
+Person.prototype.species = 'Homo Sapiens';
+console.log(eph.species);
+console.log(matilda.species);
+
+console.log(eph.hasOwnProperty('firstName'));
+console.log(eph.hasOwnProperty('species'));
